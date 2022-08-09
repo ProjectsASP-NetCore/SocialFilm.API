@@ -9,6 +9,9 @@ public class Episode
     public string Synopsis { get; set; }
     
     //Relationship
+    
+    public int SeasonId { get; set; }
+    public Season Season { get; set; }
     public int VideoId { get; set; }
     public Video Video { get; set; }
     

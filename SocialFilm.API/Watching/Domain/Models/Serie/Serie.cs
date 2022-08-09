@@ -8,7 +8,7 @@ public class Serie
     
     //Relationship
     public int SeasonId { get; set; }
-    public Season Season { get; set; }
+    public IList<Season> Seasons { get; set; } = new List<Season>();
     public int CategoryId { get; set; }
     public Category Category { get; set; }
     

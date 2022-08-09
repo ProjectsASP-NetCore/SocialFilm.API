@@ -6,7 +6,7 @@ namespace SocialFilm.API.Watching.Domain.Services;
 public interface IEpisodeService
 {
     Task<IEnumerable<Episode>> ListAsync();
-    Task<IEnumerable<Episode>> ListByEpisodeIdAsync(int episodeId);
+    Task<IEnumerable<Episode>> ListBySeasonIdAsync(int seasonId);
     Task<EpisodeResponse> SaveAsync(Episode episode);
     Task<EpisodeResponse> UpdateAsync(int episodeId, Episode episode);
     Task<EpisodeResponse> DeleteAsync(int episodeId);

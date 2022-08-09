@@ -8,7 +8,10 @@ public class Season
     
     //Relationship
     public int EpisodeId { get; set; }
-    public Episode Episode { get; set; }
+    public IList<Episode> Episodes { get; set; } = new List<Episode>();
+    
+    public int SerieId { get; set; }
+    public Serie Serie { get; set; }
     
     //Likes Relationship
     //Qualification Relationship

@@ -8,6 +8,7 @@ public interface IEpisodeRepository
     Task AddAsync(Episode episode);
     Task<Episode> FindByIdAsync(int episodeId);
     Task<Episode> FindByTitleAsync(string title);
+    Task<IEnumerable<Episode>> FindBySeasonIdAsync(int seasonId);
     void Update(Episode episode);
     void Remove(Episode episode);
 }

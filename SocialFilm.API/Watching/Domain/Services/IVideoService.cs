@@ -6,8 +6,7 @@ namespace SocialFilm.API.Watching.Domain.Services;
 public interface IVideoService
 {
     Task<IEnumerable<Video>> ListAsync();
-    Task<IEnumerable<Video>> ListByVideoIdAsync(int videoId);
     Task<VideoResponse> SaveAsync(Video video);
     Task<VideoResponse> UpdateAsync(int videoId, Video video);
-    Task<VideoResponse> DeleteAsync(int video);
+    Task<VideoResponse> DeleteAsync(int videoId);
 }

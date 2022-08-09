@@ -9,8 +9,9 @@ public class Serie
     //Relationship
     public int SeasonId { get; set; }
     public Season Season { get; set; }
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
     
-    //Categories Relationship
     //Likes Relationship
     //Qualification Relationship
 }

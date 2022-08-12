@@ -7,5 +7,4 @@ public class SerieResource
     public string Synopsis { get; set; }
     
     public CategoryResource Category { get; set; }
-    public SeasonResource Season { get; set; }
 }

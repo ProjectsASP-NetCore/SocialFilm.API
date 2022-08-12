@@ -45,4 +45,34 @@ public class FilmsController : ControllerBase
 
         return Ok(filmResource);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutAsync(int id, [FromBody] SaveFilmResource resource)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState.GetErrorMessages());
+        
+        var film = _mapper.Map<SaveFilmResource, Film>(resource);
+        var result = await _filmService.UpdateAsync(id, film);
+        
+        if (!result.Success)
+            return BadRequest(result.Message);
+
+        var filmResource = _mapper.Map<Film, FilmResource>(result.Resource);
+
+        return Ok(filmResource);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        var result = await _filmService.DeleteAsync(id);
+
+        if (!result.Success)
+            return BadRequest(result.Message);
+        
+        var filmResource = _mapper.Map<Film, FilmResource>(result.Resource);
+
+        return Ok(filmResource);
+    }
 }

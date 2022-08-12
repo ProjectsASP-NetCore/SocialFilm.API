@@ -6,5 +6,5 @@ public class SaveSerieResource
     public string Synopsis { get; set; }
     
     public int CategoryId { get; set; }
-    public int SeasonId { get; set; }
+    public int? SeasonId { get; set; }
 }

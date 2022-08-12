@@ -31,14 +31,14 @@ public class AppDbContext:DbContext
         builder.Entity<Video>().Property(p => p.VideoUrl).IsRequired();
         
         // Relationships
-        builder.Entity<Video>()
+       /*builder.Entity<Video>()
             .HasMany(p => p.Films)
             .WithOne(p => p.Video)
             .HasForeignKey(p => p.VideoId);
         builder.Entity<Video>()
             .HasMany(p => p.Episodes)
             .WithOne(p => p.Video)
-            .HasForeignKey(p => p.VideoId);
+            .HasForeignKey(p => p.VideoId);*/
         
         //CATEGORY MODEL
         builder.Entity<Category>().ToTable("Categories");

@@ -11,7 +11,15 @@ public class SerieService:ISerieService
     private readonly IUnitOfWork _unitOfWork;
     private readonly ISeasonRepository _seasonRepository;
     private readonly ICategoryRepository _categoryRepository;
-    
+
+    public SerieService(ISerieRepository serieRepository, IUnitOfWork unitOfWork, ICategoryRepository categoryRepository, ISeasonRepository seasonRepository)
+    {
+        _serieRepository = serieRepository;
+        _unitOfWork = unitOfWork;
+        _categoryRepository = categoryRepository;
+        _seasonRepository = seasonRepository;
+    }
+
     public async Task<IEnumerable<Serie>> ListAsync()
     {
         return await _serieRepository.ListAsync();
@@ -29,10 +37,10 @@ public class SerieService:ISerieService
         if (existingCategory == null)
             return new SerieResponse("Invalid Category");
         
-        var existingSeason = await _seasonRepository.FindByIdAsync(serie.SeasonId);
+        /*var existingSeason = await _seasonRepository.FindByIdAsync(serie.SeasonId);
 
         if (existingSeason == null)
-            return new SerieResponse("Invalid Season");
+            return new SerieResponse("Invalid Season");*/
 
         var existingSerieWithTitle = await _serieRepository.FindByTitleAsync(serie.Title);
 

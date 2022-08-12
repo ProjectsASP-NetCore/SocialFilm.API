@@ -29,7 +29,6 @@ public class SeasonService:ISeasonService
     {
         return await _seasonRepository.FindBySerieIdAsync(serieId);
     }
-
     public async Task<SeasonResponse> SaveAsync(Season season)
     {
         var existingSerie = await _serieRepository.FindByIdAsync(season.SerieId);
@@ -40,11 +39,12 @@ public class SeasonService:ISeasonService
         var existingSeasonWithTitle = await _seasonRepository.FindByTitleAsync(season.Title);
 
         if (existingSeasonWithTitle != null)
-            return new SeasonResponse("Serie title already exists.");
+            return new SeasonResponse("Season title already exists.");
         
         try
         {
             await _seasonRepository.AddAsync(season);
+            //await _serieRepository.Update(season);
             await _unitOfWork.CompleteAsync();
             return new SeasonResponse(season);
 

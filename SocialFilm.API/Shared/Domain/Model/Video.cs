@@ -8,6 +8,6 @@ public class Video
     public string VideoUrl { get; set; }
     
     // Relationships
-    public IList<Film> Films { get; set; } = new List<Film>();
-    public IList<Episode> Episodes { get; set; } = new List<Episode>();
+    //public IList<Film> Films { get; set; } = new List<Film>();
+    //public IList<Episode> Episodes { get; set; } = new List<Episode>();
 }

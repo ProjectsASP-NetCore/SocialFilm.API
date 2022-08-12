@@ -37,11 +37,6 @@ public class FilmService:IFilmService
         if (existingCategory == null)
             return new FilmResponse("Invalid Category");
 
-        var existingVideo = await _videoRepository.FindByIdAsync(film.VideoId);
-        
-        if (existingVideo == null)
-            return new FilmResponse("Invalid Video");
-        
         var existingFilmWithTitle = await _filmRepository.FindByTitleAsync(film.Title);
         
         if (existingFilmWithTitle != null)
@@ -63,17 +58,14 @@ public class FilmService:IFilmService
     public async Task<FilmResponse> UpdateAsync(int filmId, Film film)
     {
         var existingFilm = await _filmRepository.FindByIdAsync(filmId);
-
         if (existingFilm == null)
             return new FilmResponse("Film not found.");
         
         var existingCategory = await _categoryRepository.FindByIdAsync(film.CategoryId);
-        
         if (existingCategory == null)
             return new FilmResponse("Invalid Category");
         
-        var existingVideo = await _videoRepository.FindByIdAsync(film.VideoId);
-        
+        var existingVideo = await _videoRepository.FindByIdAsync(existingFilm.Video.Id);
         if (existingVideo == null)
             return new FilmResponse("Invalid Video");
         
@@ -85,7 +77,7 @@ public class FilmService:IFilmService
         existingFilm.Title = film.Title;
         existingFilm.Synopsis = film.Synopsis;
         existingFilm.Video.VideoUrl = film.Video.VideoUrl;
-        existingFilm.Category = film.Category;
+        existingFilm.CategoryId= film.CategoryId;
         
         try
         {

@@ -33,10 +33,11 @@ public class EpisodeService:IEpisodeService
 
     public async Task<EpisodeResponse> SaveAsync(Episode episode)
     {
-        var existingSeason = await _seasonRepository.FindByIdAsync(episode.SeasonId);
+        //var existingSeason = await _seasonRepository.FindByIdAsync(episode.SeasonId);
 
-        if (existingSeason == null)
-            return new EpisodeResponse("Invalid Season");
+        //if (existingSeason == null)
+            //return new EpisodeResponse("Invalid Season");
+        episode.SeasonId = 1;
         
         var existingEpisodeWithTitle = await _episodeRepository.FindByTitleAsync(episode.Title);
         

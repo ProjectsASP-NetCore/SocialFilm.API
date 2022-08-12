@@ -32,7 +32,7 @@ public class SerieSeasonsController:ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> PostSeasonsBySerieIdAsync([FromBody] SaveSeasonResource resource)
+    public async Task<IActionResult> PostSeasonsBySerieIdAsync(int serieId, [FromBody] SaveSeasonResource resource)
     {
 
         if (!ModelState.IsValid)
@@ -40,12 +40,42 @@ public class SerieSeasonsController:ControllerBase
 
         var season = _mapper.Map<SaveSeasonResource, Season>(resource);
 
-        var result = await _seasonService.SaveAsync(season);
+        var result = await _seasonService.SaveBySerieIdAsync(season, serieId);
 
         if (!result.Success)
             return BadRequest(result.Message);
 
-        var seasonResource = _mapper.Map<Season, SaveSeasonResource>(result.Resource);
+        var seasonResource = _mapper.Map<Season, SeasonResource>(result.Resource);
+
+        return Ok(seasonResource);
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutAsync(int id,int serieId, [FromBody] SaveSeasonResource resource)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState.GetErrorMessages());
+        
+        var season = _mapper.Map<SaveSeasonResource, Season>(resource);
+        var result = await _seasonService.UpdateBySerieIdAsync(id,season,serieId);
+        
+        if (!result.Success)
+            return BadRequest(result.Message);
+
+        var seasonResource = _mapper.Map<Season, SeasonResource>(result.Resource);
+
+        return Ok(seasonResource);
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        var result = await _seasonService.DeleteAsync(id);
+
+        if (!result.Success)
+            return BadRequest(result.Message);
+        
+        var seasonResource = _mapper.Map<Season, SeasonResource>(result.Resource);
 
         return Ok(seasonResource);
     }

@@ -6,6 +6,5 @@ public class EpisodeResource
     public string Title { get; set; }
     public string Synopsis { get; set; }
     
-    public CategoryResource Category { get; set; }
     public VideoResource Video { get; set; }
 }

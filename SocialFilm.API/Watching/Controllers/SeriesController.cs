@@ -47,6 +47,23 @@ public class SeriesController:ControllerBase
         return Ok(serieResource);
     }
     
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutAsync(int id, [FromBody] SaveSerieResource resource)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState.GetErrorMessages());
+        
+        var serie = _mapper.Map<SaveSerieResource, Serie>(resource);
+        var result = await _serieService.UpdateAsync(id, serie);
+        
+        if (!result.Success)
+            return BadRequest(result.Message);
+
+        var serieResource = _mapper.Map<Serie, SerieResource>(result.Resource);
+
+        return Ok(serieResource);
+    }
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {

@@ -72,12 +72,7 @@ public class SerieService:ISerieService
 
         if (existingCategory == null)
             return new SerieResponse("Invalid Category");
-        
-        var existingSeason = await _seasonRepository.FindByIdAsync(serie.SeasonId);
 
-        if (existingSeason == null)
-            return new SerieResponse("Invalid Season");
-        
         var existingSerieWithTitle = await _serieRepository.FindByTitleAsync(serie.Title);
 
         if (existingSerieWithTitle != null && existingSerieWithTitle.Id != existingSerie.Id)
@@ -86,14 +81,14 @@ public class SerieService:ISerieService
         existingSerie.Title = serie.Title;
         existingSerie.Synopsis = serie.Synopsis;
         existingSerie.Seasons = serie.Seasons;
-        existingSerie.Category = serie.Category;
+        existingSerie.CategoryId = serie.CategoryId;
         
         try
         {
-            _serieRepository.Update(serie);
+            _serieRepository.Update(existingSerie);
             await _unitOfWork.CompleteAsync();
             
-            return new SerieResponse(serie);
+            return new SerieResponse(existingSerie);
 
         }
         catch (Exception e)

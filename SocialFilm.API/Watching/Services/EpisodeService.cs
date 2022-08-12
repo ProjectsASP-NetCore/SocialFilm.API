@@ -37,8 +37,33 @@ public class EpisodeService:IEpisodeService
 
         //if (existingSeason == null)
             //return new EpisodeResponse("Invalid Season");
-        episode.SeasonId = 1;
+
+            var existingEpisodeWithTitle = await _episodeRepository.FindByTitleAsync(episode.Title);
         
+        if (existingEpisodeWithTitle != null)
+            return new EpisodeResponse("Episode title already exists.");
+        
+        try
+        {
+            await _episodeRepository.AddAsync(episode);
+            await _unitOfWork.CompleteAsync();
+            return new EpisodeResponse(episode);
+        }
+        catch (Exception e)
+        {
+            return new EpisodeResponse($"An error occurred while saving the episode: {e.Message}");
+        }
+    }
+
+    public async Task<EpisodeResponse> SaveBySeasonIdAsync(int seasonId, Episode episode)
+    {
+        var existingSeason = await _seasonRepository.FindByIdAsync(seasonId);
+
+        if (existingSeason == null)
+            return new EpisodeResponse("Invalid Season");
+        
+        episode.SeasonId = seasonId;
+
         var existingEpisodeWithTitle = await _episodeRepository.FindByTitleAsync(episode.Title);
         
         if (existingEpisodeWithTitle != null)
@@ -95,6 +120,41 @@ public class EpisodeService:IEpisodeService
             return new EpisodeResponse($"An error occurred while updating the episode: {e.Message}");
         }
 
+    }
+
+    public async Task<EpisodeResponse> UpdateBySeasonIdAsync(int seasonId, int episodeId, Episode episode)
+    {
+        var existingEpisode = await _episodeRepository.FindByIdAsync(episodeId);
+
+        if (existingEpisode == null)
+            return new EpisodeResponse("Episode not found");
+        
+        var existingSeason = await _seasonRepository.FindByIdAsync(seasonId);
+        
+        if (existingSeason == null)
+            return new EpisodeResponse("Invalid Season");
+
+        var existingEpisodeWithTitle = await _episodeRepository.FindByTitleAsync(episode.Title);
+        
+        if (existingEpisodeWithTitle != null && existingEpisodeWithTitle.Id != existingEpisode.Id)
+            return new EpisodeResponse("Episode title already exists.");
+
+        existingEpisode.Title = episode.Title;
+        existingEpisode.Synopsis = episode.Synopsis;
+        existingEpisode.Video.VideoUrl = episode.Video.VideoUrl;
+        existingEpisode.SeasonId = seasonId;
+
+        try
+        {
+            _episodeRepository.Update(existingEpisode);
+            await _unitOfWork.CompleteAsync();
+            
+            return new EpisodeResponse(existingEpisode);
+        }
+        catch (Exception e)
+        {
+            return new EpisodeResponse($"An error occurred while updating the episode: {e.Message}");
+        }
     }
 
     public async Task<EpisodeResponse> DeleteAsync(int episodeId)

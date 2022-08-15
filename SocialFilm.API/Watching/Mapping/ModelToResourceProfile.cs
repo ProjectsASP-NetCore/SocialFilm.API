@@ -15,5 +15,6 @@ public class ModelToResourceProfile:Profile
         CreateMap<Serie, SerieResource>();
         CreateMap<Season, SeasonResource>();
         CreateMap<Episode, EpisodeResource>();
+        CreateMap<BannerVideo, BannerVideoResource>();
     }
 }

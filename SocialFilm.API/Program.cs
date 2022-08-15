@@ -1,3 +1,4 @@
+using System.Security.Policy;
 using Microsoft.EntityFrameworkCore;
 using SocialFilm.API.Watching.Domain.Repositories;
 using SocialFilm.API.Watching.Domain.Services;
@@ -13,6 +14,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// Add CORS Service
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name:"socialFilmCors", builder =>
+    {
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddSwaggerGen();
 
 //*********************************************PART 1********************************************************
@@ -41,6 +54,8 @@ builder.Services.AddScoped<IEpisodeRepository, EpisodeRepository>();
 builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<ISeasonRepository, SeasonRepository>();
 builder.Services.AddScoped<ISeasonService, SeasonService>();
+builder.Services.AddScoped<IBannerVideoRepository, BannerVideoRepository>();
+builder.Services.AddScoped<IBannerVideoService, BannerVideoService>();
 
 
 
@@ -65,6 +80,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("socialFilmCors");
 
 app.UseHttpsRedirection();
 

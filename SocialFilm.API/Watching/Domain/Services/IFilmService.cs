@@ -7,6 +7,7 @@ public interface IFilmService
 {
     Task<IEnumerable<Film>> ListAsync();
     Task<IEnumerable<Film>> ListByCategoryIdAsync(int categoryId);
+    Task<FilmResponse> GetAsync(int filmId);
     Task<FilmResponse> SaveAsync(Film film);
     Task<FilmResponse> UpdateAsync(int filmId, Film film);
     Task<FilmResponse> DeleteAsync(int filmId);

@@ -25,6 +25,24 @@ public class FilmService:IFilmService
         return await _filmRepository.ListAsync();
     }
 
+    public async Task<FilmResponse> GetAsync(int filmId)
+    {
+        var existingFilm = await _filmRepository.FindByIdAsync(filmId);
+
+        if (existingFilm == null)
+            return new FilmResponse("Film not found");
+
+        try
+        {
+            await _unitOfWork.CompleteAsync();
+            return new FilmResponse(existingFilm);
+        }
+        catch (Exception e)
+        {
+            return new FilmResponse($"An error occurred while deleting the film: {e.Message}");
+        }
+    }
+
     public async Task<IEnumerable<Film>> ListByCategoryIdAsync(int categoryId)
     {
         return await _filmRepository.FindByCategoryIdAsync(categoryId);
@@ -78,6 +96,7 @@ public class FilmService:IFilmService
         existingFilm.Synopsis = film.Synopsis;
         existingFilm.Video.VideoUrl = film.Video.VideoUrl;
         existingFilm.CategoryId= film.CategoryId;
+        existingFilm.BannerVideo = film.BannerVideo;
         
         try
         {

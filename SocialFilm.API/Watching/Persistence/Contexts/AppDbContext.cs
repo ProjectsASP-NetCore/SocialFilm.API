@@ -7,6 +7,7 @@ namespace SocialFilm.API.Watching.Persistence.Contexts;
 public class AppDbContext:DbContext
 {
     public DbSet<Video> Videos { get; set; }
+    public DbSet<BannerVideo> BannerVideos { get; set; } 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Film> Films { get; set; }
     public DbSet<Serie> Series { get; set; }
@@ -30,6 +31,13 @@ public class AppDbContext:DbContext
         builder.Entity<Video>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Video>().Property(p => p.VideoUrl).IsRequired();
         
+        //BANNER VIDEO MODEL 
+        builder.Entity<BannerVideo>().ToTable("BannerVideos");
+        builder.Entity<BannerVideo>().HasKey(p => p.Id);
+        builder.Entity<BannerVideo>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<BannerVideo>().Property(p => p.Banner).IsRequired();
+        builder.Entity<BannerVideo>().Property(p => p.Billboard).IsRequired();
+
         // Relationships
        /*builder.Entity<Video>()
             .HasMany(p => p.Films)
@@ -62,7 +70,12 @@ public class AppDbContext:DbContext
         builder.Entity<Film>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Film>().Property(p => p.Title).IsRequired();
         builder.Entity<Film>().Property(p => p.Synopsis).IsRequired().HasMaxLength(500);
-        
+
+        builder.Entity<Film>()
+            .HasOne(p => p.BannerVideo)
+            .WithOne(p => p.Film)
+            .HasForeignKey<BannerVideo>(p => p.FilmId);
+
         //SERIE MODEL    
         builder.Entity<Serie>().ToTable("Series");
         builder.Entity<Serie>().HasKey(p => p.Id);

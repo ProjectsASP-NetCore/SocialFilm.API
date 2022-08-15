@@ -8,4 +8,5 @@ public class FilmResource
     
     public CategoryResource Category { get; set; }
     public VideoResource Video { get; set; }
+    public BannerVideoResource BannerVideo { get; set; }
 }

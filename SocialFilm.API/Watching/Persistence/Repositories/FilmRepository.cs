@@ -16,6 +16,7 @@ public class FilmRepository:BaseRepository,IFilmRepository
         return await _context.Films
             .Include(p => p.Category)
             .Include(p => p.Video)
+            .Include(p=>p.BannerVideo)
             .ToListAsync();
     }
 
@@ -29,6 +30,7 @@ public class FilmRepository:BaseRepository,IFilmRepository
         return await _context.Films
             .Include(p => p.Category)
             .Include(p => p.Video)
+            .Include(p=>p.BannerVideo)
             .FirstOrDefaultAsync(p => p.Id == filmId);
     }
 
@@ -37,6 +39,7 @@ public class FilmRepository:BaseRepository,IFilmRepository
         return await _context.Films
             .Include(p => p.Category)
             .Include(p => p.Video)
+            .Include(p=>p.BannerVideo)
             .FirstOrDefaultAsync(p => p.Title == title);
 
     }
@@ -47,6 +50,7 @@ public class FilmRepository:BaseRepository,IFilmRepository
             .Where(p => p.CategoryId == categoryId)
             .Include(p => p.Category)
             .Include(p => p.Video)
+            .Include(p=>p.BannerVideo)
             .ToListAsync();
     }
 

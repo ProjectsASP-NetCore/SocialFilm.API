@@ -14,6 +14,9 @@ public class Film
     public int CategoryId { get; set; }
     public Category Category { get; set; }
     
+    public int BannerVideoId { get; set; }
+    public BannerVideo BannerVideo { get; set; }
+    
     //Likes Relationship
     //Qualification Relationship
 }

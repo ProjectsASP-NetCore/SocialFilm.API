@@ -27,6 +27,15 @@ public class FilmsController : ControllerBase
 
         return resources;
     }
+    
+    [HttpGet("{id}")]
+    public async Task<FilmResource> GetAsync(int id)
+    {
+        var film = await _filmService.GetAsync(id);
+        var filmResource = _mapper.Map<Film, FilmResource>(film.Resource);
+
+        return filmResource;
+    }
 
     [HttpPost]
     public async Task<IActionResult> PostAsync([FromBody] SaveFilmResource resource)

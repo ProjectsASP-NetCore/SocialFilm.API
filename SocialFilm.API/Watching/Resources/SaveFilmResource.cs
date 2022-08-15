@@ -11,4 +11,5 @@ public class SaveFilmResource
     public int? CategoryId { get; set; }
     
     public Video? Video { get; set; }
+    public SaveBannerVideoResource? BannerVideo { get; set; }
 }
